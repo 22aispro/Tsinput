@@ -136,7 +136,7 @@ fn run() -> Result<i32, String> {
             require_len(&args, 2)?;
             let key = virtual_key(&args[1])?;
 
-            Ok(if key_pressed(key) { 0 } else { 1 })
+            Ok(if key_pressed(i32::from(key)) { 0 } else { 1 })
         }
 
         "type" => {
