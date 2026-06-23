@@ -1,11 +1,29 @@
 fcn tsinput_driver () -> str {
     cre_str configured = os_get_env("TSINPUT_DRIVER");
 
-    if configured == "" {
-        return ".\\tsinput-driver.exe";
+    if configured != "" {
+        return configured;
     }
 
-    return configured;
+    cre_str manifest = ".\\packages\\Input\\driver\\Cargo.toml";
+    cre_str driver = ".\\packages\\Input\\driver\\target\\release\\tsinput-driver.exe";
+
+    if !os_exists(driver) {
+        cons!("Building TSInput driver...");
+
+        cre_int status = os_run("cargo", [
+            "build",
+            "--release",
+            "--manifest-path",
+            manifest
+        ]);
+
+        if status != 0 {
+            cons!("TSInput driver build failed.");
+        }
+    }
+
+    return driver;
 }
 
 pub fcn tsinput_available () -> bool {
