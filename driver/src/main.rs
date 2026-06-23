@@ -95,7 +95,7 @@ fn run() -> Result<i32, String> {
         "mouse-pressed" => {
             require_len(&args, 2)?;
             let key = mouse_virtual_key(&args[1])?;
-            Ok(if key_pressed(key) { 0 } else { 1 })
+            Ok(if key_pressed(i32::from(key)) { 0 } else { 1 })
         }
 
         "scroll" => {
