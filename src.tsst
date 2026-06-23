@@ -1,0 +1,71 @@
+fcn tsinput_driver () -> str {
+    cre_str configured = os_get_env("TSINPUT_DRIVER");
+
+    if configured == "" {
+        return ".\\tsinput-driver.exe";
+    }
+
+    return configured;
+}
+
+pub fcn tsinput_available () -> bool {
+    return os_exists(tsinput_driver());
+}
+
+pub fcn tsinput_move (cre_int x, cre_int y) -> int {
+    return os_run(tsinput_driver(), ["move", x, y]);
+}
+
+pub fcn tsinput_move_relative (cre_int x, cre_int y) -> int {
+    return os_run(tsinput_driver(), ["move-relative", x, y]);
+}
+
+pub fcn tsinput_click (cre_str button) -> int {
+    return os_run(tsinput_driver(), ["click", button]);
+}
+
+pub fcn tsinput_double_click (cre_str button) -> int {
+    return os_run(tsinput_driver(), ["double-click", button]);
+}
+
+pub fcn tsinput_mouse_down (cre_str button) -> int {
+    return os_run(tsinput_driver(), ["mouse-down", button]);
+}
+
+pub fcn tsinput_mouse_up (cre_str button) -> int {
+    return os_run(tsinput_driver(), ["mouse-up", button]);
+}
+
+pub fcn tsinput_scroll (cre_int amount) -> int {
+    return os_run(tsinput_driver(), ["scroll", amount]);
+}
+
+pub fcn tsinput_key_tap (cre_str key) -> int {
+    return os_run(tsinput_driver(), ["key-tap", key]);
+}
+
+pub fcn tsinput_key_down (cre_str key) -> int {
+    return os_run(tsinput_driver(), ["key-down", key]);
+}
+
+pub fcn tsinput_key_up (cre_str key) -> int {
+    return os_run(tsinput_driver(), ["key-up", key]);
+}
+
+pub fcn tsinput_type (cre_str text) -> int {
+    return os_run(tsinput_driver(), ["type", text]);
+}
+
+pub fcn tsinput_hotkey (cre_arr keys) -> int {
+    cre_arr arguments = ["hotkey"];
+
+    for (cre_str key in keys) {
+        push!(arguments, key);
+    }
+
+    return os_run(tsinput_driver(), arguments);
+}
+
+pub fcn tsinput_wait (cre_int milliseconds) -> bool {
+    return os_sleep(milliseconds);
+}
