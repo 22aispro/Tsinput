@@ -69,3 +69,58 @@ pub fcn tsinput_hotkey (cre_arr keys) -> int {
 pub fcn tsinput_wait (cre_int milliseconds) -> bool {
     return os_sleep(milliseconds);
 }
+
+pub fcn tsinput_key_pressed (cre_str key) -> bool {
+    cre_int status = os_run(
+        tsinput_driver(),
+        ["key-pressed", key]
+    );
+
+    return status == 0;
+}
+
+pub fcn tsinput_mouse_pressed (cre_str button) -> bool {
+    cre_int status = os_run(
+        tsinput_driver(),
+        ["mouse-pressed", button]
+    );
+
+    return status == 0;
+}
+
+pub fcn tsinput_wait_for_key (cre_str key) -> bool {
+    while !tsinput_key_pressed(key) {
+        os_sleep(10);
+    }
+
+    return true;
+}
+
+pub fcn tsinput_wait_for_mouse (cre_str button) -> bool {
+    while !tsinput_mouse_pressed(button) {
+        os_sleep(10);
+    }
+
+    return true;
+}
+
+pub fcn tsinput_read_key () -> str {
+    return trim(os_capture(
+        tsinput_driver(),
+        ["read-key"]
+    ));
+}
+
+pub fcn tsinput_mouse_position () -> str {
+    return trim(os_capture(
+        tsinput_driver(),
+        ["mouse-position"]
+    ));
+}
+
+pub fcn tsinput_screen_size () -> str {
+    return trim(os_capture(
+        tsinput_driver(),
+        ["screen-size"]
+    ));
+}
